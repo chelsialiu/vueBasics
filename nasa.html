@@ -18,23 +18,27 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-    var apiKey = '88JMA43wYThUhio5fJSfMFhDNlfgpFqGsrmHLxQx';
-    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
-
     var vm = new Vue({
         el: '#app',
         data: {
             imgSrc: '',
             imgTitle: ''
         },
-        
+        created: function () { // Created will exectue as soon as the Vue instance is created. it is a VUE lifecycle hook.
+            this.fetchApod();
+        },
+        methods: {
+            fetchApod: function () {
+                var apiKey = '88JMA43wYThUhio5fJSfMFhDNlfgpFqGsrmHLxQx';
+                var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+                axios.get(url)
+                    .then(function (res) {
+                        // console.clear()
+                        // console.log(res)
+                        vm.imgSrc = res.data.url;
+                        vm.imgTitle = res.data.title;
+                    })
+            }
+        }  
     })
-
-    axios.get(url)
-        .then(function (res) {
-            // console.clear()
-            // console.log(res)
-            vm.imgSrc = res.data.url;
-            vm.imgTitle = res.data.title;
-        })
 </script>
