@@ -18,7 +18,9 @@
                 <!-- This is called TWO-WAY data binding -->
                 <input type="email" v-model="email" class="form-control form-control-lg">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- v-on is a directive, name of event being handled (click), method (process) -->
+            <!-- Shorthand for v-on:click is just @click -->
+            <button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
@@ -36,6 +38,15 @@
         data: {
             // gretting: 'Hello from Vue!'
             email: 'chels@example.com'
+        },
+
+        methods: {
+            // process: function(event) {
+                // event.preventDefault(); // DOM event, doesn't refresh the page upon submission
+                // another way to do this is to add '.prevent' to v-on:click value (see above)
+            process: function() {
+                alert('Submitted ' + this.email)
+            }
         }
         
     })
