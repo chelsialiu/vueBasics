@@ -2,11 +2,20 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+<!--square brackets for v-cloak because it is an ATTRIBUTE-->
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
 <div id="app">
     <!--This is called string interpolation, we wnat the result rendered as a string, bind data to document {{curly braces}}-->
     <!-- <h1>{{greeting}}</h1> -->
     <div class="container">
-        <form class="mt-5">
+        <!--v-if and v-else-->
+        <!--v-show keeps the form element in the DOM, have to specify condition and can't just use else-->
+        <form v-show="!submitted" class="mt-5"> <!--Can also use v-show, which will still keep the form element in the DOM-->
             <div class="form-group">
                 <label for="email">Email</label>
                 <!--v-bind is a VUE attribute/directive that controls one of the standard HTML attributes. It is a special VIEW-ONLY attribute-->
@@ -21,6 +30,7 @@
             <!-- v-on is a directive, name of event being handled (click), method (process) -->
             <!-- Shorthand for v-on:click is just @click -->
             <button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+            <h2 v-show="submitted" v-cloak class="mt-5">Thanks for signing up!</h2> <!--v-cloak hides the element with pure CSS, but is then removed once VUE is initialized-->
         </form>
     </div>
 </div>
@@ -45,7 +55,8 @@
                 // event.preventDefault(); // DOM event, doesn't refresh the page upon submission
                 // another way to do this is to add '.prevent' to v-on:click value (see above)
             process: function() {
-                alert('Submitted ' + this.email)
+                // alert('Submitted ' + this.email)
+                this.submitted = true;
             }
         }
         
