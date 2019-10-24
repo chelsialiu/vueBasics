@@ -10,7 +10,13 @@
             <div class="form-group">
                 <label for="email">Email</label>
                 <!--v-bind is a VUE attribute/directive that controls one of the standard HTML attributes. It is a special VIEW-ONLY attribute-->
-                <input type="email" v-bind:value="email" class="form-control form-control-lg">
+                <!--Shorthand for v-bind:value is just :value-->
+                <!-- <input type="email" v-bind:value="email" class="form-control form-control-lg"> -->
+
+                <!--v-bind is a VUE attribute/directive that will load default value upon refreshing the page, but it will update if -->
+                <!-- when value is changed, data property is updated -->
+                <!-- This is called TWO-WAY data binding -->
+                <input type="email" v-model="email" class="form-control form-control-lg">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -21,7 +27,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script>
-    new Vue({
+    // vm stands for VIEW model, allows access of data property outside of the VUE instance  (i.e. console)
+    var vm = new Vue({
         // root element selector
         el: '#app',
 
@@ -33,3 +40,4 @@
         
     })
 </script>
+hello
