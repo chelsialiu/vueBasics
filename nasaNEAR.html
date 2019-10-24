@@ -14,13 +14,23 @@
             <h2 class="card-header">Near Earth Objects</h2>
             <table class="table">
                 <thead class="thead-light">
+                    <th>#</th>
                     <th>Name</th>
                     <th>Close Approach Date</th>
+                    <th>Miss Distance</th>
                 </thead>
                 <tbody v-cloak> <!--Since waiting for data to return for curly braces, we add v-cloak to avoid screen flickering -->
-                    <tr v-for="a in asteroids">
+                    <tr v-for="(a, index) in asteroids"> <!--value and index for ARRAY-->
+                        <td>{{index + 1}}</td>
                         <td>{{a.name}}</td>
                         <td>{{getCloseApproachDate(a)}}</td> <!--Create and call a method outside of this or else too long.-->
+                        <td>
+                            <ul v-if="a.close_approach_data.length > 0">
+                                <li v-for="(value, key) in a.close_approach_data[0].miss_distance"> <!--key and value for LISTS-->
+                                    {{key}}: {{value}}
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                 </tbody>
             </table>
