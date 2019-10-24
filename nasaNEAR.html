@@ -12,6 +12,10 @@
     <div class="container">
         <div class="card mt-5">
             <h2 class="card-header">Near Earth Objects</h2>
+            <div class="m-3" v-cloak v-if="numAsteroids > 0">
+                <p>Showing {{numAsteroids}} items</p>
+                <p>{{closestObject}} has the shortest miss distance.</p>
+            </div>
             <table class="table">
                 <thead class="thead-light">
                     <th>#</th>
@@ -53,6 +57,23 @@
         data: {
             asteroids: []
         },
+        computed: { // Computed functions return a value that's cached until any value that depends on are updated, which are then re-computed
+            numAsteroids: function () {
+                return this.asteroids.length;
+            },
+            closestObject: function () {
+                var neosHavingData = this.asteroids.filter(function (neo) { // See if objects have the necessary miss data, returns true for items we want to keep
+                    return neo.close_approach_data.length > 0;
+                });
+                var simpleNeos = neosHavingData.map(function (neo) { // Create a simpler array that only has two attribues: name and distance in miles
+                    return {name: neo.name, miles: neo.close_approach_data[0].miss_distance.miles};
+                });
+                var sortedNeos = simpleNeos.sort(function (a,b) { // Sort takes a pair of items to sort
+                    return a.miles - b.miles;
+                })
+                return sortedNeos[0].name
+            }
+        },
         created: function () { // Created will exectue as soon as the Vue instance is created. it is a VUE lifecycle hook.
             this.fetchAsteroids();
         },
@@ -60,7 +81,6 @@
             fetchAsteroids: function () {
                 var apiKey = '88JMA43wYThUhio5fJSfMFhDNlfgpFqGsrmHLxQx';
                 var url = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKey;
-                // var url = 'http:737798.youcanlearnit.net/neos.json';
                 axios.get(url)
                     .then(function (res) { //res = response
                         vm.asteroids = res.data.near_earth_objects.slice(0,10) //Get first 10 objects in array
