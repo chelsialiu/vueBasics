@@ -3,20 +3,21 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <div id="app">
-    <!--This is called string interpolation, we wnat the result rendered as a string, bind data to document-->
+    <!--This is called string interpolation, we wnat the result rendered as a string, bind data to document {{curly braces}}-->
     <!-- <h1>{{greeting}}</h1> -->
     <div class="container">
         <form class="mt-5">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control form-control-lg">
+                <!--v-bind is a VUE attribute/directive that controls one of the standard HTML attributes. It is a special VIEW-ONLY attribute-->
+                <input type="email" v-bind:value="email" class="form-control form-control-lg">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
 
-<!-- From https://vuejs.org/v2/guide/installation.html -->
+<!-- Got this vue.js file from https://vuejs.org/v2/guide/installation.html -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script>
@@ -27,6 +28,7 @@
         // object that contains our variables, properties of Vue instance
         data: {
             // gretting: 'Hello from Vue!'
+            email: 'chels@example.com'
         }
         
     })
