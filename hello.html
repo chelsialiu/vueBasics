@@ -30,15 +30,16 @@
             <!-- v-on is a directive, name of event being handled (click), method (process) -->
             <!-- Shorthand for v-on:click is just @click -->
             <button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
-            <h2 v-show="submitted" v-cloak class="mt-5">Thanks for signing up!</h2> <!--v-cloak hides the element with pure CSS, but is then removed once VUE is initialized-->
         </form>
+        <h2 v-show="submitted" v-cloak class="mt-5">Thanks for signing up!</h2> <!--v-cloak hides the element with pure CSS, but is then removed once VUE is initialized-->
     </div>
 </div>
 
 <!-- Got this vue.js file from https://vuejs.org/v2/guide/installation.html -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script>
+<script>    
     // vm stands for VIEW model, allows access of data property outside of the VUE instance  (i.e. console)
     var vm = new Vue({
         // root element selector
@@ -47,7 +48,8 @@
         // object that contains our variables, properties of Vue instance
         data: {
             // gretting: 'Hello from Vue!'
-            email: 'chels@example.com'
+            email: 'chels@example.com',
+            submitted: false
         },
 
         methods: {
@@ -62,4 +64,3 @@
         
     })
 </script>
-hello
