@@ -17,13 +17,23 @@
     .shooting-star-enter-active, .shooting-star-leave-active {
         transition: all .5s ease;
     }
+    .neo-list-leave-to, .neo-list-enter {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .neo-list-enter-active, .neo-list-leave-active {
+        transition: all 1s linear;
+    }
 </style>
+<!--Vue v-leave-to and v-enter: ending state when  we transition from on to off-->
+<!--Vue v-leave-active and v-enter-active: how we transition from one state to the next, which CSS properties to apply it to, and the timing-->
+<!--Learn more about Vue Enter/Leave Transitions: https://vuejs.org/v2/guide/transitions.html -->
 
 <div id="app">
     <div class="container">
         <div class="card mt-5">
             <h2 class="card-header">Near Earth Objects</h2>
-            <transition name="shooting-star"> <!--Transition CSS-->
+            <transition name="shooting-star"> <!--Transition CSS, doesn't actually render-->
                 <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
                     <p>Showing {{numAsteroids}} items</p>
                     <p>{{closestObject}} has the shortest miss distance.</p>
@@ -32,7 +42,7 @@
             <div class="m-3">
                 <a href="#" @click="showSummary =!showSummary">Show/Hide Summary</a>
             </div>
-            <table class="table table-striped" :class="['table-dark', 'table-bordered']">
+            <table class="table table-striped" :class="[{'table-dark': false}, 'table-bordered']">
                 <thead class="thead-light">
                     <th>#</th>
                     <th>Name</th>
@@ -40,7 +50,9 @@
                     <th>Miss Distance</th>
                     <th>Remove</th>
                 </thead>
-                <tbody v-cloak> <!--Since waiting for data to return for curly braces, we add v-cloak to avoid screen flickering -->
+                <!--Since waiting for data to return for curly braces, we add v-cloak to avoid screen flickering-->
+                <!--Vue 'is' attribute tells Vue how we really want it to be treated as (i.e. A transition-group instead of a tbody) -->
+                <tbody is="transition-group" name="neo-list" v-cloak> 
                     <!--The key attribute is good to implement if data can change through add, remove, or edit functions; unique for each element -->
                     <!--This allows VUE to update the list in place by patching when possible instead of re-rendering the entire list-->
                     <tr v-for="(a, index) in asteroids" :key="a.neo_reference_id" :class="{highlight: isMissingData(a), 'shadow-sm': true}">
@@ -59,7 +71,8 @@
                             <button @click="remove(index)" class="btn btn-warning">Remove</button>
                         </td>
                     </tr>
-                </tbody>
+                </transition-group>
+                <!-- </tbody> -->
             </table>
         </div>
     </div>
