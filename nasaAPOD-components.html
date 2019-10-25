@@ -10,8 +10,14 @@
 
 <div id="app">
     <div class="container">
-        <a-pod></a-pod>
-        <a-pod date="2018-08-07"></a-pod>
+        <a-pod>
+            <h3 slot="title">#1</h3>
+            <p slot="caption">Here's today's Astronomy Picture of the Day!</p>
+        </a-pod>
+        <a-pod date="2018-08-07">
+            <h3 slot="title">#2</h3>
+            <p slot="caption" slot-scope="pic">Here's the picture from {{pic.date}}</p> <!--pic.date grabs the date value passed to the slot -->
+        </a-pod>
     </div>
 </div>
 
@@ -21,8 +27,10 @@
 <script>
     Vue.component('a-pod', {
         template: '<div> \
-                        <img :src="imgSrc" :title="imgTitle"> \
+                        <slot name="title"><h3>Untitled</h3></slot> \
+                        <img width="300" height="200" :src="imgSrc" :title="imgTitle"> \
                         <p>{{date || "Today"}}</p> \
+                        <slot name="caption" :date="date">Unknown Date</slot> \
                     </div>',
         props: ['date'],
         data: function() {
