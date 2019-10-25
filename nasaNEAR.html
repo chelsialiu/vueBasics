@@ -10,15 +10,27 @@
         border: solid 3px red;
         color: red;
     }
+    .shooting-star-leave-to, .shooting-star-enter {
+        transform: translateX(150px) rotate(30deg);
+        opacity: 0;
+    }
+    .shooting-star-enter-active, .shooting-star-leave-active {
+        transition: all .5s ease;
+    }
 </style>
 
 <div id="app">
     <div class="container">
         <div class="card mt-5">
             <h2 class="card-header">Near Earth Objects</h2>
-            <div class="m-3" v-cloak v-if="numAsteroids > 0">
-                <p>Showing {{numAsteroids}} items</p>
-                <p>{{closestObject}} has the shortest miss distance.</p>
+            <transition name="shooting-star"> <!--Transition CSS-->
+                <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
+                    <p>Showing {{numAsteroids}} items</p>
+                    <p>{{closestObject}} has the shortest miss distance.</p>
+                </div>
+            </transition>
+            <div class="m-3">
+                <a href="#" @click="showSummary =!showSummary">Show/Hide Summary</a>
             </div>
             <table class="table table-striped" :class="['table-dark', 'table-bordered']">
                 <thead class="thead-light">
@@ -60,7 +72,8 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            asteroids: []
+            asteroids: [],
+            showSummary: true
         },
         computed: { // Computed functions return a value that's cached until any value that depends on are updated, which are then re-computed
             numAsteroids: function () {
