@@ -24,6 +24,20 @@
     .neo-list-enter-active, .neo-list-leave-active {
         transition: all 1s linear;
     }
+    .spin-enter-active {
+        animation: spin-steps 2s;
+    }
+    @keyframes spin-steps {
+        0% {
+            transform: scale(1) rotate(0);
+        }
+        50% {
+            transform: scale(10) rotate(360deg);
+        }
+        100% {
+            transform: scale(1) rotate(1080deg);
+        }
+    }
 </style>
 <!--Vue v-leave-to and v-enter: ending state when  we transition from on to off-->
 <!--Vue v-leave-active and v-enter-active: how we transition from one state to the next, which CSS properties to apply it to, and the timing-->
@@ -32,7 +46,12 @@
 <div id="app">
     <div class="container">
         <div class="card mt-5">
-            <h2 class="card-header">Near Earth Objects</h2>
+            <h2 class="card-header">
+                Near Earth 
+                <transition name="spin" appear> <!--appear triggers it on page load-->
+                    <span style="display:inline-block">Objects</span> <!--Appear on same line as "New Earth", but treated as separate block-->
+                </transition>
+            </h2>
             <transition name="shooting-star"> <!--Transition CSS, doesn't actually render-->
                 <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
                     <p>Showing {{numAsteroids}} items</p>
